@@ -1,25 +1,29 @@
 package solution;
 
-import core.Item;
-import core.KnapsackSolver;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import core.Item;
+import core.KnapsackSolver;
 
 public class BaseSolver implements KnapsackSolver {
 
-    @Override
-    public List<Item> solve(List<Item> items, double capacity) {
-        List<Item> selectedItems = new ArrayList<>();
-        double currentWeight = 0;
+	@Override
+	public List<Item> solve(List<Item> items, double capacity) {
+		List<Item> selectedItems = new ArrayList<>();
+		double currentWeight = 0;
+		TreeMap<Double, Item> lista = new TreeMap<>();
 
-        for (Item item : items) {
-            // Si el objeto cabe con lo que ya tenemos, para adentro
-            if (currentWeight + item.weight() <= capacity) {
-                selectedItems.add(item);
-                currentWeight += item.weight();
-            }
-        }
+		for (Item item : items) {
+			lista.put(item.value() / item.weight(), item);
+		}
 
-        return selectedItems;
-    }
+		while (currentWeight <= capacity) {
+			selectedItems.add(lista.get(lista.pollFirstEntry()));
+		}
+
+		return selectedItems;
+	}
 }
