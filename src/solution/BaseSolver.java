@@ -2,7 +2,6 @@ package solution;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 import core.Item;
@@ -21,7 +20,8 @@ public class BaseSolver implements KnapsackSolver {
 		}
 
 		while (currentWeight <= capacity) {
-			selectedItems.add(lista.get(lista.pollFirstEntry()));
+			selectedItems.add(lista.get(lista.firstKey()));
+			lista.remove(lista.firstKey());
 		}
 
 		return selectedItems;
